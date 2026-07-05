@@ -208,8 +208,8 @@
     position: relative;
     background: repeating-linear-gradient(
       to bottom,
-      #78350f 0px, #78350f 74px,
-      #92400e 74px, #92400e 76px
+      #78350f 0px, #78350f 78px,
+      #92400e 78px, #92400e 80px
     );
     border-radius: 16px;
     overflow: hidden;
@@ -239,7 +239,7 @@
   /* ============ 레인 & 말 ============ */
   .lane {
     position: relative;
-    height: 76px;
+    height: 80px;
     border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
   }
   .horse {
@@ -362,15 +362,16 @@
 
   .horse .name-tag {
     position: absolute;
-    top: 48px; left: 4px;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    top: 50px; left: 4px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: #f1f5f9;
     font-size: 11px;
     font-weight: 700;
     padding: 3px 8px;
     border-radius: 6px;
     white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
   .horse .rank-badge {
     position: absolute;
@@ -535,11 +536,11 @@
   /* 모바일 최적화 */
   @media (max-width: 520px) {
     .horse .emoji { font-size: 32px; }
-    .lane { height: 66px; }
-    .track { background-size: 100% 66px; }
+    .lane { height: 70px; }
+    .track { background-size: 100% 70px; }
     .track::before { left: 45px; }
     .track::after { right: 45px; }
-    .horse .name-tag { top: 38px; font-size: 9px; }
+    .horse .name-tag { top: 40px; font-size: 9px; }
     .podium .step { width: 80px; }
   }
 </style>
@@ -674,7 +675,7 @@ function setupRace() {
   horses = [];
 
   const isMobile = window.innerWidth <= 520;
-  const laneH = isMobile ? 66 : 76;
+  const laneH = isMobile ? 70 : 80;
   trackEl.style.height = (horseCount * laneH) + 'px';
 
   for (let i = 0; i < horseCount; i++) {
