@@ -214,6 +214,7 @@
     border-radius: 16px;
     overflow: hidden;
     border: 4px solid #451a03;
+    padding-bottom: 12px;
   }
   /* 출발선 / 결승선 */
   .track::before, .track::after {
@@ -537,7 +538,7 @@
   @media (max-width: 520px) {
     .horse .emoji { font-size: 32px; }
     .lane { height: 70px; }
-    .track { background-size: 100% 70px; }
+    .track { background-size: 100% 70px; padding-bottom: 8px; }
     .track::before { left: 45px; }
     .track::after { right: 45px; }
     .horse .name-tag { top: 40px; font-size: 9px; }
@@ -676,7 +677,6 @@ function setupRace() {
 
   const isMobile = window.innerWidth <= 520;
   const laneH = isMobile ? 70 : 80;
-  trackEl.style.height = (horseCount * laneH) + 'px';
 
   for (let i = 0; i < horseCount; i++) {
     const lane = document.createElement('div');
