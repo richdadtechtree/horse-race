@@ -3,253 +3,382 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏇 두근두근 말달리기 대회</title>
+<title>🏇 두근두근 말달리기 대회 🏆</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Pretendard:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     [디자인 토큰] 경마장 컨셉 색상 정의
-     - 하늘/잔디/흙 트랙의 실제 경마장 색감을 CSS 변수로 관리
+     [디자인 시스템] 현대적이고 프리미엄한 경마장 스타일
      ============================================================ */
   :root {
-    --sky-top: #7ec8e3;      /* 하늘 위쪽 */
-    --sky-bottom: #cdeffd;   /* 하늘 아래쪽(지평선) */
-    --turf: #4a9e4f;         /* 잔디 */
-    --turf-dark: #3d8a42;    /* 잔디 줄무늬 */
-    --dirt: #c9a06a;         /* 흙 트랙 */
-    --dirt-line: #b58a52;    /* 레인 구분선 */
-    --board: #1e2a1f;        /* 전광판(짙은 녹색-검정) */
-    --board-text: #ffd54a;   /* 전광판 노란 글씨 */
-    --accent: #e53935;       /* 포인트 빨강(결승선, 버튼) */
-    --white: #fffdf7;
+    --sky-top: #0f172a;      /* 어두운 테마 하늘 (밤 경기장 컨셉) */
+    --sky-bottom: #1e293b;
+    --turf: #064e3b;         /* 잔디 */
+    --turf-dark: #022c22;    /* 짙은 잔디 */
+    --dirt: #78350f;         /* 트랙 흙색 */
+    --dirt-line: #b45309;    /* 트랙 라인 */
+    --board: rgba(15, 23, 42, 0.85); /* 글래스모피즘 전광판 */
+    --board-text: #38bdf8;   /* 형광 파란색 텍스트 */
+    --accent: #f43f5e;       /* 로즈 핑크 포인트 */
+    --neon-gold: #fbbf24;    /* 골드 */
+    --neon-green: #34d399;   /* 당근 부스트 컬러 */
+    --neon-purple: #a78bfa;  /* 번개/디지 효과 */
+    --white: rgba(255, 255, 255, 0.08);
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-    background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom) 40%, var(--turf) 40%);
+    font-family: 'Outfit', 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 100%);
+    color: #f8fafc;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 12px 40px;
+    padding: 24px 16px 48px;
     overflow-x: hidden;
   }
 
-  /* ============ 상단 타이틀 (경마장 전광판 스타일) ============ */
+  /* ============ 상단 타이틀 (네온 전광판 스타일) ============ */
   .title-board {
-    background: var(--board);
-    color: var(--board-text);
-    padding: 14px 32px;
-    border-radius: 12px;
-    border: 4px solid #3a4d3b;
-    box-shadow: 0 6px 0 #14351c, 0 10px 24px rgba(0,0,0,.3);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 18px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     text-align: center;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .title-board::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent);
   }
   .title-board h1 {
-    font-size: clamp(20px, 4vw, 32px);
-    letter-spacing: 2px;
-    text-shadow: 0 0 12px rgba(255,213,74,.6);
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
   }
   .title-board .sub {
-    font-size: 12px;
-    color: #a8e6a3;
-    margin-top: 4px;
-    letter-spacing: 4px;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 6px;
+    letter-spacing: 6px;
+    font-weight: 600;
   }
 
   /* ============ 설정 패널 (참여자 수 선택) ============ */
   .setup {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 22px 26px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 420px;
+    max-width: 440px;
     width: 100%;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
   }
-  .setup h2 { font-size: 18px; margin-bottom: 14px; color: #333; }
+  .setup:hover {
+    transform: translateY(-2px);
+  }
+  .setup h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #f1f5f9;
+  }
   .count-btns {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: 10px;
+    margin-bottom: 20px;
   }
   .count-btns button {
-    padding: 12px 0;
-    font-size: 18px;
+    padding: 14px 0;
+    font-size: 16px;
     font-weight: 700;
-    border: 3px solid #ddd;
-    border-radius: 10px;
-    background: #fafafa;
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
-    transition: all .15s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .count-btns button:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .count-btns button.selected {
-    background: var(--accent);
+  .count-btns button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #38bdf8;
     color: #fff;
-    border-color: #b71c1c;
-    box-shadow: 0 4px 0 #b71c1c;
+    transform: translateY(-2px);
+  }
+  .count-btns button.selected {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: #fff;
+    border-color: #38bdf8;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
   }
   .start-btn {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     font-size: 20px;
     font-weight: 800;
     color: #fff;
-    background: linear-gradient(to bottom, #ff5252, var(--accent));
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    box-shadow: 0 5px 0 #b71c1c;
-    transition: transform .1s;
+    box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
+    transition: all 0.2s;
   }
-  .start-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b71c1c; }
-  .start-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .start-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5);
+  }
+  .start-btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  .start-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 
   /* ============ 실시간 중계석 ============ */
   .commentary {
-    background: var(--board);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
     color: #fff;
-    border-radius: 10px;
-    padding: 10px 18px;
-    margin: 14px 0;
-    max-width: 900px;
+    border-radius: 16px;
+    padding: 12px 24px;
+    margin: 20px 0;
+    max-width: 950px;
     width: 100%;
-    min-height: 46px;
+    min-height: 54px;
     display: none;
     align-items: center;
-    gap: 10px;
-    font-size: clamp(13px, 2.5vw, 16px);
+    gap: 12px;
+    font-size: clamp(14px, 2.5vw, 17px);
     font-weight: 600;
-    border: 3px solid #3a4d3b;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   }
-  .commentary .mic { font-size: 20px; animation: pulse 1s infinite; }
-  @keyframes pulse { 50% { transform: scale(1.2); } }
-  .commentary .text { color: #fff8dc; }
+  .commentary .mic {
+    font-size: 22px;
+    animation: pulse 1.2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  .commentary .text {
+    color: #e2e8f0;
+    transition: color 0.3s ease;
+  }
 
   /* ============ 경기장 (트랙) ============ */
   .track-wrap {
     display: none;
     width: 100%;
-    max-width: 900px;
-    background: var(--turf);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    max-width: 950px;
+    background: linear-gradient(180deg, #064e3b 0%, #022c22 100%);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
   .track {
     position: relative;
     background: repeating-linear-gradient(
       to bottom,
-      var(--dirt) 0px, var(--dirt) 64px,
-      var(--dirt-line) 64px, var(--dirt-line) 66px
+      #78350f 0px, #78350f 74px,
+      #92400e 74px, #92400e 76px
     );
-    border-radius: 10px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 3px solid #8a6a3e;
+    border: 4px solid #451a03;
   }
   /* 출발선 / 결승선 */
   .track::before, .track::after {
     content: '';
     position: absolute;
     top: 0; bottom: 0;
-    width: 8px;
+    width: 10px;
     z-index: 2;
   }
-  .track::before { left: 60px; background: repeating-linear-gradient(to bottom, #fff 0 8px, #333 8px 16px); }
+  .track::before {
+    left: 70px;
+    background: repeating-linear-gradient(to bottom, #f8fafc 0 10px, #0f172a 10px 20px);
+  }
   .track::after {
-    right: 54px;
-    background: repeating-linear-gradient(to bottom, #fff 0 8px, var(--accent) 8px 16px);
+    right: 64px;
+    background: repeating-linear-gradient(to bottom, #f8fafc 0 10px, var(--accent) 10px 20px);
     animation: finishGlow 1s infinite alternate;
   }
-  @keyframes finishGlow { to { box-shadow: 0 0 14px rgba(229,57,53,.9); } }
+  @keyframes finishGlow {
+    to { box-shadow: 0 0 20px var(--accent); }
+  }
 
   /* ============ 레인 & 말 ============ */
   .lane {
     position: relative;
-    height: 66px;
+    height: 76px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
   }
   .horse {
     position: absolute;
     left: 0;
-    top: 6px;
+    top: 10px;
     display: flex;
     align-items: center;
-    transition: none;
+    transition: transform 0.08s linear;
     z-index: 3;
     will-change: transform;
   }
-  .horse .emoji {
-    font-size: 38px;
-    transform: scaleX(-1);           /* 🏇 이모지가 왼쪽을 보므로 좌우 반전해 오른쪽으로 달리게 함 */
+  .horse .emoji-wrapper {
+    position: relative;
     display: inline-block;
-    filter: drop-shadow(2px 3px 2px rgba(0,0,0,.3));
   }
-  /* 달리는 동안 위아래로 통통 튀는 갤럽 애니메이션 */
-  .horse.running .emoji { animation: gallop .28s infinite; }
+  .horse .emoji {
+    font-size: 42px;
+    transform: scaleX(-1);           /* 말머리가 오른쪽으로 가도록 대칭 이동 */
+    display: inline-block;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  /* 달릴 때의 갤럽 모션 */
+  .horse.running .emoji {
+    animation: gallop .26s infinite;
+  }
   @keyframes gallop {
-    0%,100% { transform: scaleX(-1) translateY(0) rotate(0deg); }
-    50%     { transform: scaleX(-1) translateY(-6px) rotate(-4deg); }
+    0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg); }
+    50%      { transform: scaleX(-1) translateY(-8px) rotate(-5deg); }
   }
-  /* 넘어짐: 말이 뒤집히고 어지러움 표시 */
+
+  /* ---- 이벤트별 스타일 효과 ---- */
+  
+  /* 1. 넘어짐 (Stumble/Fallen) */
   .horse.fallen .emoji {
     animation: none;
-    transform: scaleX(-1) rotate(95deg) translateY(6px);
-    filter: grayscale(.4) drop-shadow(2px 3px 2px rgba(0,0,0,.3));
+    transform: scaleX(-1) rotate(90deg) translateY(8px);
+    filter: grayscale(0.5) opacity(0.8);
   }
   .horse .dizzy {
     display: none;
     position: absolute;
-    top: -14px; left: 8px;
-    font-size: 18px;
-    animation: spinStar 1s linear infinite;
+    top: -18px; left: 8px;
+    font-size: 20px;
+    animation: spinStar 1.2s linear infinite;
   }
   .horse.fallen .dizzy { display: block; }
   @keyframes spinStar { to { transform: rotate(360deg); } }
-  /* 스퍼트: 불꽃 이펙트 */
-  .horse .fire {
+
+  /* 2. 당근 스퍼트 (Carrot Power) */
+  .horse .boost-effect {
     display: none;
     position: absolute;
-    left: -18px; top: 12px;
-    font-size: 20px;
-    animation: flicker .2s infinite alternate;
+    left: -24px; top: 10px;
+    font-size: 22px;
+    animation: fireFlicker 0.15s infinite alternate;
   }
-  .horse.spurt .fire { display: block; }
-  .horse.spurt .emoji { animation-duration: .16s; } /* 스퍼트 시 더 빠르게 발구름 */
-  @keyframes flicker { to { transform: scale(1.3); opacity: .7; } }
+  .horse.carrot-boost .boost-effect { display: block; }
+  .horse.carrot-boost .emoji {
+    animation: gallop .12s infinite; /* 스퍼트 중엔 발구름이 매우 빠름 */
+    filter: drop-shadow(0 0 12px var(--neon-green)) drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+  }
+  @keyframes fireFlicker {
+    to { transform: scale(1.3) translateX(-4px); opacity: 0.7; }
+  }
+
+  /* 3. 바나나 슬립 (Banana Slip) */
+  .horse.banana-slip .emoji {
+    animation: spinBanana 0.4s linear infinite;
+    filter: drop-shadow(0 0 10px var(--neon-gold));
+  }
+  .horse .slip-effect {
+    display: none;
+    position: absolute;
+    top: -14px; left: 12px;
+    font-size: 20px;
+  }
+  .horse.banana-slip .slip-effect { display: block; }
+  @keyframes spinBanana {
+    0% { transform: scaleX(-1) rotate(0deg); }
+    100% { transform: scaleX(-1) rotate(360deg); }
+  }
+
+  /* 4. 벼락 낙하 (Lightning Shocked) */
+  .horse.lightning-shocked .emoji {
+    animation: shakeShock 0.1s infinite;
+    filter: grayscale(0.8) brightness(1.5) drop-shadow(0 0 15px var(--neon-purple));
+  }
+  .horse .lightning-effect {
+    display: none;
+    position: absolute;
+    top: -26px; left: 6px;
+    font-size: 28px;
+    animation: strikeFlash 0.3s ease infinite alternate;
+  }
+  .horse.lightning-shocked .lightning-effect { display: block; }
+  @keyframes shakeShock {
+    0%, 100% { transform: scaleX(-1) translate(0, 0); }
+    25% { transform: scaleX(-1) translate(-2px, 2px); }
+    75% { transform: scaleX(-1) translate(2px, -2px); }
+  }
+  @keyframes strikeFlash {
+    from { opacity: 0.6; transform: scale(0.9) translateY(-2px); }
+    to { opacity: 1; transform: scale(1.2) translateY(0); }
+  }
+
   /* 흙먼지 파티클 */
   .dust {
     position: absolute;
-    font-size: 13px;
-    opacity: .8;
-    animation: dustFade .6s forwards;
+    font-size: 15px;
+    opacity: 0.8;
+    animation: dustFade 0.5s forwards;
     z-index: 1;
     pointer-events: none;
   }
   @keyframes dustFade {
-    to { transform: translate(-24px, -10px) scale(1.6); opacity: 0; }
+    to { transform: translate(-30px, -12px) scale(1.8); opacity: 0; }
   }
 
   .horse .name-tag {
     position: absolute;
-    top: 42px; left: 4px;
-    background: rgba(0,0,0,.65);
-    color: #fff;
+    top: 48px; left: 4px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f1f5f9;
     font-size: 11px;
     font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 8px;
+    padding: 3px 8px;
+    border-radius: 6px;
     white-space: nowrap;
   }
   .horse .rank-badge {
     position: absolute;
-    top: -12px; left: 14px;
-    font-size: 15px;
+    top: -15px; left: 16px;
+    font-size: 18px;
     font-weight: 900;
     display: none;
+    z-index: 5;
   }
 
   /* ============ 카운트다운 오버레이 ============ */
@@ -259,80 +388,142 @@
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 90px;
-    font-weight: 900;
+    font-size: 96px;
+    font-weight: 800;
     color: #fff;
-    text-shadow: 0 0 30px rgba(0,0,0,.6);
-    background: rgba(0,0,0,.35);
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+    background: rgba(15, 23, 42, 0.5);
     z-index: 10;
     border-radius: 16px;
+    backdrop-filter: blur(4px);
   }
 
-  /* ============ 결과(시상대) 오버레이 ============ */
+  /* ============ 결과 오버레이 ============ */
   .result {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.75);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
     z-index: 100;
     align-items: center;
     justify-content: center;
     padding: 16px;
   }
   .result-card {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 28px 30px;
-    max-width: 460px;
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    padding: 36px 32px;
+    max-width: 480px;
     width: 100%;
     text-align: center;
-    animation: popIn .4s cubic-bezier(.2,1.4,.4,1);
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     max-height: 90vh;
     overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
   }
-  @keyframes popIn { from { transform: scale(.6); opacity: 0; } }
-  .result-card h2 { font-size: 26px; margin-bottom: 6px; }
-  .winner-line { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 16px; }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } }
+  .result-card h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .winner-line {
+    font-size: 22px;
+    font-weight: 800;
+    color: #38bdf8;
+    margin-bottom: 24px;
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  }
   .podium {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    gap: 8px;
-    margin-bottom: 18px;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-top: 40px;
   }
   .podium .step {
-    width: 88px;
-    border-radius: 8px 8px 0 0;
+    width: 100px;
+    border-radius: 12px 12px 0 0;
     color: #fff;
     font-weight: 800;
-    padding-top: 6px;
+    padding-top: 8px;
     position: relative;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   }
-  .podium .step .h-emoji { font-size: 30px; position: absolute; top: -36px; left: 50%; transform: translateX(-50%) scaleX(-1); }
-  .podium .step .h-name { font-size: 11px; display: block; margin-top: 2px; padding: 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .step.first  { height: 92px; background: linear-gradient(#ffd54a,#f9a825); }
-  .step.second { height: 68px; background: linear-gradient(#cfd8dc,#90a4ae); }
-  .step.third  { height: 52px; background: linear-gradient(#d7a173,#a1663c); }
-  .rank-list { text-align: left; font-size: 14px; margin-bottom: 18px; }
-  .rank-list div { padding: 5px 10px; border-bottom: 1px dashed #ddd; display: flex; justify-content: space-between; }
-  .result-btns { display: flex; gap: 10px; }
+  .podium .step .h-emoji {
+    font-size: 36px;
+    position: absolute;
+    top: -42px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(-1);
+  }
+  .podium .step .h-name {
+    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+    padding: 0 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0.9;
+  }
+  .step.first  { height: 110px; background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); border: 1px solid rgba(251, 191, 36, 0.5); }
+  .step.second { height: 80px; background: linear-gradient(180deg, #cbd5e1 0%, #64748b 100%); border: 1px solid rgba(203, 213, 225, 0.5); }
+  .step.third  { height: 60px; background: linear-gradient(180deg, #b45309 0%, #78350f 100%); border: 1px solid rgba(180, 83, 9, 0.5); }
+  
+  .rank-list {
+    text-align: left;
+    font-size: 15px;
+    margin-bottom: 28px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 16px;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .rank-list div {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rank-list div:last-child { border-bottom: none; }
+  
+  .result-btns { display: flex; gap: 12px; }
   .result-btns button {
     flex: 1;
-    padding: 12px;
+    padding: 14px;
     font-size: 16px;
     font-weight: 700;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
+    transition: all 0.2s;
   }
-  .btn-again { background: var(--accent); color: #fff; box-shadow: 0 4px 0 #b71c1c; }
-  .btn-new { background: #eee; color: #333; box-shadow: 0 4px 0 #bbb; }
+  .btn-again {
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+  }
+  .btn-again:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4); }
+  .btn-new {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .btn-new:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
 
   /* 색종이(콘페티) */
   .confetti {
     position: fixed;
     top: -20px;
-    font-size: 18px;
+    font-size: 20px;
     z-index: 101;
     animation: fall linear forwards;
     pointer-events: none;
@@ -341,18 +532,15 @@
     to { transform: translateY(110vh) rotate(720deg); }
   }
 
-  /* 모바일 대응: 화면이 좁아도 말과 트랙이 잘 보이도록 축소 */
+  /* 모바일 최적화 */
   @media (max-width: 520px) {
-    .horse .emoji { font-size: 30px; }
-    .lane { height: 56px; }
-    .track { background-size: 100% 56px; }
-    .track::before { left: 40px; }
-    .track::after { right: 40px; }
-    .horse .name-tag { top: 34px; font-size: 10px; }
-  }
-  /* 움직임 최소화 설정 사용자를 위한 배려 */
-  @media (prefers-reduced-motion: reduce) {
-    .horse.running .emoji, .commentary .mic { animation: none; }
+    .horse .emoji { font-size: 32px; }
+    .lane { height: 66px; }
+    .track { background-size: 100% 66px; }
+    .track::before { left: 45px; }
+    .track::after { right: 45px; }
+    .horse .name-tag { top: 38px; font-size: 9px; }
+    .podium .step { width: 80px; }
   }
 </style>
 </head>
@@ -361,7 +549,7 @@
   <!-- 전광판 타이틀 -->
   <div class="title-board">
     <h1>🏇 두근두근 말달리기 대회 🏆</h1>
-    <div class="sub">GRAND DERBY CHAMPIONSHIP</div>
+    <div class="sub">CHAMPIONS LEAGUE DERBY</div>
   </div>
 
   <!-- 1단계: 참여자 수 설정 -->
@@ -398,18 +586,9 @@
   </div>
 
 <script>
-/* ==================================================================
-   [게임 전체 구조 안내 - 초보자용 설명]
-   1. 설정 화면에서 말의 수(2~8)를 고르고 시작
-   2. 3-2-1 카운트다운 후 requestAnimationFrame으로 매 프레임 말 이동
-   3. 매 프레임마다 각 말의 속도가 랜덤하게 흔들리고,
-      낮은 확률로 "넘어짐"(잠시 멈춤) / "스퍼트"(속도 부스트) 이벤트 발생
-   4. 결승선 통과 순서를 기록해 시상대와 순위표 표시
-   ================================================================== */
-
 // ---------- 게임에 등장할 말 이름/색상 풀 ----------
 const HORSE_NAMES = ['천둥번개','바람돌이','불꽃질주','은하수','황금발굽','폭풍우','새벽별','무쇠다리'];
-const BADGE_COLORS = ['#e53935','#1e88e5','#43a047','#fb8c00','#8e24aa','#00acc1','#f06292','#6d4c41'];
+const BADGE_COLORS = ['#fb2c5a','#38bdf8','#34d399','#a78bfa','#fbbf24','#ec4899','#60a5fa','#a78bfa'];
 
 // ---------- 중계 멘트 모음 ----------
 const COMMENTS = {
@@ -417,19 +596,22 @@ const COMMENTS = {
   lead: n => [`${n}, 선두로 치고 나갑니다!`, `현재 선두는 ${n}! 엄청난 스피드!`, `${n}가 앞서 나가고 있습니다!`],
   fall: n => [`아이고!! ${n}, 넘어졌습니다!! 이럴 수가!`, `${n} 선수 낙마!! 대형 사고입니다!`, `${n}가 발이 꼬였습니다! 큰일이에요!`],
   recover: n => [`${n}, 다시 일어나 달립니다! 대단한 근성!`, `${n} 재정비 완료! 추격 시작!`],
-  spurt: n => [`${n}, 무서운 스퍼트!! 불이 붙었습니다!`, `${n}의 폭발적인 가속!! 놀랍습니다!`],
   close: ['막상막하! 한 치 앞을 알 수 없습니다!','접전입니다! 손에 땀을 쥐게 하는군요!'],
-  finish: n => [`${n}, 결승선 통과!! 우승입니다!!! 🎉`]
+  finish: n => [`${n}, 결승선 통과!! 우승입니다!!! 🎉`],
+  // 신규 이벤트 멘트
+  carrot: n => [`${n}, 당근 파워로 엄청난 가속! 순간 이동 급 속도입니다!`, `오오! 당근을 먹은 ${n}, 눈에 불을 켜고 달려나갑니다!`],
+  banana: n => [`아이쿠! ${n}, 누군가 던진 바나나 껍질에 미끄러집니다!`, `바나나 테러! ${n}, 빙글빙글 돌며 미끄러집니다!`],
+  lightning: n => [`마른하늘에 날벼락! ${n}, 벼락을 맞아 기어갑니다!`, `콰콰쾅! ${n}에게 번개가 직격합니다!! 속도가 완전히 꺾입니다!`]
 };
-const pick = arr => arr[Math.floor(Math.random() * arr.length)]; // 배열에서 랜덤 하나 뽑기
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
 // ---------- 상태 변수 ----------
-let horseCount = 0;      // 선택된 말 수
-let horses = [];         // 각 말의 상태 객체 배열
-let raceRunning = false; // 레이스 진행 중 여부
-let finishOrder = [];    // 결승선 통과 순서
-let lastTime = 0;        // 프레임 간 시간 계산용
-let commentLock = 0;     // 중계 멘트가 너무 자주 바뀌지 않게 하는 잠금 시간
+let horseCount = 0;
+let horses = [];
+let raceRunning = false;
+let finishOrder = [];
+let lastTime = 0;
+let commentLock = 0;
 
 // ---------- DOM 참조 ----------
 const $ = id => document.getElementById(id);
@@ -437,22 +619,31 @@ const setupEl = $('setup'), trackEl = $('track'), trackWrap = $('trackWrap');
 const commentaryEl = $('commentary'), commentText = $('commentText');
 const countdownEl = $('countdown'), resultEl = $('result');
 
-// ---------- 효과음 (Web Audio API로 간단한 비프음 생성) ----------
-// 외부 파일 없이 브라우저 자체 기능으로 소리를 만듭니다.
+// ---------- 효과음 (Web Audio API) ----------
 let audioCtx = null;
-function beep(freq, dur, type='square', vol=0.15) {
+function playBeep(freqs, duration, type='sine', vol=0.15) {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = type;
-    osc.frequency.value = freq;
-    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-    osc.connect(gain).connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + dur);
-  } catch(e) { /* 소리 재생 실패해도 게임은 계속 */ }
+    
+    // 배열이 아니면 단일 주파수로 처리
+    const frequencies = Array.isArray(freqs) ? freqs : [freqs];
+    const segmentDuration = duration / frequencies.length;
+    
+    frequencies.forEach((freq, idx) => {
+      setTimeout(() => {
+        if (!raceRunning && idx > 0 && !resultEl.style.display) return; // 레이스 끝났을 때 소리 중지 방지
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + segmentDuration);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + segmentDuration);
+      }, idx * segmentDuration * 1000);
+    });
+  } catch(e) { }
 }
 
 // ================== 1. 설정 화면 만들기 ==================
@@ -465,7 +656,7 @@ for (let n = 2; n <= 8; n++) {
     document.querySelectorAll('.count-btns button').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     $('startBtn').disabled = false;
-    beep(600, .08, 'sine');
+    playBeep(587, 0.08, 'sine'); // D5 note
   };
   countBtnsEl.appendChild(btn);
 }
@@ -483,10 +674,9 @@ function setupRace() {
   horses = [];
 
   const isMobile = window.innerWidth <= 520;
-  const laneH = isMobile ? 56 : 66;
+  const laneH = isMobile ? 66 : 76;
   trackEl.style.height = (horseCount * laneH) + 'px';
 
-  // 말 객체 생성: 진행도(progress)는 0~1, 1이 되면 결승선 통과
   for (let i = 0; i < horseCount; i++) {
     const lane = document.createElement('div');
     lane.className = 'lane';
@@ -494,9 +684,13 @@ function setupRace() {
     el.className = 'horse';
     el.innerHTML = `
       <span class="rank-badge"></span>
-      <span class="fire">🔥</span>
+      <span class="boost-effect">🥕</span>
+      <span class="slip-effect">🍌</span>
+      <span class="lightning-effect">⚡</span>
       <span class="dizzy">💫</span>
-      <span class="emoji">🏇</span>
+      <span class="emoji-wrapper">
+        <span class="emoji">🏇</span>
+      </span>
       <span class="name-tag" style="border-left:4px solid ${BADGE_COLORS[i]}">${i+1}. ${HORSE_NAMES[i]}</span>`;
     lane.appendChild(el);
     trackEl.appendChild(lane);
@@ -505,32 +699,31 @@ function setupRace() {
       idx: i,
       name: HORSE_NAMES[i],
       el,
-      progress: 0,                          // 현재 위치 (0=출발선, 1=결승선)
-      baseSpeed: 0.055 + Math.random()*0.01, // 초당 기본 진행 속도 (개체차 부여)
-      state: 'ready',                        // ready | run | fallen | finished
-      stateTimer: 0,                         // 넘어짐/스퍼트 지속시간 타이머
-      spurt: false,
-      dustTimer: 0                           // 흙먼지 생성 주기
+      progress: 0,
+      baseSpeed: 0.052 + Math.random()*0.009,
+      state: 'ready', // ready | run | fallen | carrot-boost | banana-slip | lightning-shocked
+      stateTimer: 0,
+      dustTimer: 0
     });
   }
   runCountdown();
 }
 
-// ================== 3. 카운트다운 (3-2-1-출발!) ==================
+// ================== 3. 카운트다운 ==================
 function runCountdown() {
   countdownEl.style.display = 'flex';
   let n = 3;
   countdownEl.textContent = n;
-  beep(440, .15);
+  playBeep(440, .12, 'sine', 0.1);
   const iv = setInterval(() => {
     n--;
     if (n > 0) {
       countdownEl.textContent = n;
-      beep(440, .15);
+      playBeep(440, .12, 'sine', 0.1);
     } else {
       clearInterval(iv);
       countdownEl.textContent = '출발!!';
-      beep(880, .5, 'sawtooth', .2); // 출발 신호음(높은 음)
+      playBeep([587, 698, 880], .4, 'triangle', .18); // 아르페지오 신호음
       setTimeout(() => {
         countdownEl.style.display = 'none';
         startRace();
@@ -539,7 +732,7 @@ function runCountdown() {
   }, 900);
 }
 
-// ================== 4. 레이스 본편 ==================
+// ================== 4. 레이스 루프 ==================
 function startRace() {
   raceRunning = true;
   lastTime = performance.now();
@@ -548,105 +741,127 @@ function startRace() {
   requestAnimationFrame(loop);
 }
 
-// 매 프레임 실행되는 핵심 루프
 function loop(now) {
   if (!raceRunning) return;
-  const dt = Math.min((now - lastTime) / 1000, 0.05); // 프레임 간 경과 시간(초). 탭 전환 등으로 튀는 것 방지 위해 상한 설정
+  const dt = Math.min((now - lastTime) / 1000, 0.05);
   lastTime = now;
   commentLock -= dt;
 
   const trackW = trackEl.clientWidth;
   const isMobile = window.innerWidth <= 520;
-  const startX = isMobile ? 40 : 60;
-  const finishX = trackW - (isMobile ? 80 : 100); // 말 크기를 고려한 결승 지점
+  const startX = isMobile ? 45 : 70;
+  const finishX = trackW - (isMobile ? 85 : 105);
 
   horses.forEach(h => {
     if (h.state === 'finished') return;
 
-    // --- 넘어진 상태: 타이머가 끝나면 다시 일어남 ---
-    if (h.state === 'fallen') {
+    // 타이머 차감 및 상태 복구 판정
+    if (h.state !== 'run') {
       h.stateTimer -= dt;
       if (h.stateTimer <= 0) {
+        h.el.classList.remove('fallen', 'carrot-boost', 'banana-slip', 'lightning-shocked');
         h.state = 'run';
-        h.el.classList.remove('fallen');
         h.el.classList.add('running');
-        say(pick(COMMENTS.recover(h.name)), 1.5);
+        if (h.state === 'fallen' || h.state === 'lightning-shocked' || h.state === 'banana-slip') {
+          say(pick(COMMENTS.recover(h.name)), 1.2);
+        }
       }
     }
 
     if (h.state === 'run') {
-      // --- 랜덤 이벤트 판정 (확률은 초당 기준으로 dt를 곱해 프레임 독립적으로 계산) ---
-      // 넘어짐: 초당 약 7% 확률 (0.07 * dt로 프레임 속도와 무관하게 일정한 확률 유지)
-      // 단, 결승 직전(진행도 95% 이후)엔 넘어지지 않게 해서 허무한 결말을 방지합니다
-      if (h.progress < 0.95 && Math.random() < 0.07 * dt) {
+      // --- 초당 확률 기반 이벤트 발생 판정 ---
+      
+      // 1. 당근 파워 (Carrot Boost) - 초당 5% 확률
+      if (Math.random() < 0.05 * dt) {
+        h.state = 'carrot-boost';
+        h.stateTimer = 1.2;
+        h.el.classList.remove('running');
+        h.el.classList.add('carrot-boost');
+        playBeep([523, 659, 784, 1046], 0.3, 'sine', 0.15); // 경쾌한 상승 멜로디
+        say(pick(COMMENTS.carrot(h.name)), 1.8);
+      }
+      // 2. 바나나 미끄러짐 (Banana Slip) - 초당 4% 확률 (90% 이하 진행도에서만)
+      else if (h.progress < 0.90 && Math.random() < 0.04 * dt) {
+        h.state = 'banana-slip';
+        h.stateTimer = 0.8;
+        h.el.classList.remove('running');
+        h.el.classList.add('banana-slip');
+        playBeep([880, 587, 293], 0.3, 'sawtooth', 0.15); // 미끄러지는 하강음
+        say(pick(COMMENTS.banana(h.name)), 1.8);
+      }
+      // 3. 벼락 낙하 (Lightning Strike) - 초당 3% 확률 (선두권 유지를 위한 35% 이상 진행도에서만)
+      else if (h.progress > 0.35 && Math.random() < 0.03 * dt) {
+        h.state = 'lightning-shocked';
+        h.stateTimer = 1.5;
+        h.el.classList.remove('running');
+        h.el.classList.add('lightning-shocked');
+        playBeep([150, 100, 80], 0.4, 'triangle', 0.25); // 쾅 하는 베이스 저음
+        say(pick(COMMENTS.lightning(h.name)), 2.0);
+      }
+      // 4. 일반 넘어짐 (Fallen) - 초당 4% 확률
+      else if (h.progress < 0.93 && Math.random() < 0.04 * dt) {
         h.state = 'fallen';
-        h.stateTimer = 0.8 + Math.random() * 1.2; // 0.8~2초간 기절
-        h.spurt = false;
-        h.el.classList.remove('running','spurt');
+        h.stateTimer = 0.8 + Math.random() * 0.8;
+        h.el.classList.remove('running');
         h.el.classList.add('fallen');
-        beep(150, .3, 'sawtooth', .2); // 쿵! 소리
-        say(pick(COMMENTS.fall(h.name)), 2);
-      }
-      // 스퍼트: 초당 약 6% 확률로 1초간 1.7배 가속
-      else if (!h.spurt && Math.random() < 0.06 * dt) {
-        h.spurt = true;
-        h.stateTimer = 1.0;
-        h.el.classList.add('spurt');
-        beep(1200, .12, 'sine', .1);
-        say(pick(COMMENTS.spurt(h.name)), 1.5);
-      }
-
-      // 스퍼트 지속시간 관리
-      if (h.spurt) {
-        h.stateTimer -= dt;
-        if (h.stateTimer <= 0) { h.spurt = false; h.el.classList.remove('spurt'); }
-      }
-
-      // --- 속도 계산: 기본속도 × 랜덤 흔들림(0.6~1.4배) × 스퍼트 배수 ---
-      const jitter = 0.6 + Math.random() * 0.8;
-      const mult = h.spurt ? 1.7 : 1;
-      h.progress += h.baseSpeed * jitter * mult * dt;
-
-      // --- 흙먼지 이펙트 (0.15초마다 하나 생성) ---
-      h.dustTimer -= dt;
-      if (h.dustTimer <= 0) {
-        h.dustTimer = 0.15;
-        spawnDust(h);
-      }
-
-      // --- 결승선 통과 판정 ---
-      if (h.progress >= 1) {
-        h.progress = 1;
-        h.state = 'finished';
-        h.el.classList.remove('running','spurt');
-        finishOrder.push(h);
-        if (finishOrder.length === 1) {
-          say(pick(COMMENTS.finish(h.name)), 3);
-          beep(1046, .2); setTimeout(()=>beep(1318, .2), 200); setTimeout(()=>beep(1568, .4), 400); // 팡파레
-        }
-        const badge = h.el.querySelector('.rank-badge');
-        badge.style.display = 'block';
-        badge.textContent = ['🥇','🥈','🥉'][finishOrder.length-1] || finishOrder.length + '등';
+        playBeep(220, 0.25, 'sawtooth', 0.18);
+        say(pick(COMMENTS.fall(h.name)), 1.8);
       }
     }
 
-    // --- 화면 위치 반영: progress(0~1)를 픽셀 좌표로 변환 ---
+    // --- 속도 계산 공식 ---
+    let speedMultiplier = 1.0;
+    if (h.state === 'carrot-boost') speedMultiplier = 2.2;
+    else if (h.state === 'banana-slip') speedMultiplier = 0.4;
+    else if (h.state === 'lightning-shocked') speedMultiplier = 0.25;
+    else if (h.state === 'fallen') speedMultiplier = 0;
+
+    const jitter = 0.65 + Math.random() * 0.7; // 상시 흔들림 요소
+    h.progress += h.baseSpeed * speedMultiplier * jitter * dt;
+
+    // 흙먼지 생성
+    if (h.state === 'run' || h.state === 'carrot-boost') {
+      h.dustTimer -= dt;
+      if (h.dustTimer <= 0) {
+        h.dustTimer = h.state === 'carrot-boost' ? 0.08 : 0.16; // 당근일 땐 먼지가 더 뿜어져 나옴
+        spawnDust(h);
+      }
+    }
+
+    // 결승선 골인
+    if (h.progress >= 1) {
+      h.progress = 1;
+      h.state = 'finished';
+      h.el.classList.remove('running', 'carrot-boost', 'banana-slip', 'lightning-shocked');
+      finishOrder.push(h);
+      
+      if (finishOrder.length === 1) {
+        say(pick(COMMENTS.finish(h.name)), 3);
+        playBeep([523, 659, 784, 1046, 1318], 0.6, 'sine', 0.2); // 우승 팡파레
+      }
+      
+      const badge = h.el.querySelector('.rank-badge');
+      badge.style.display = 'block';
+      badge.textContent = ['🥇','🥈','🥉'][finishOrder.length-1] || finishOrder.length + '등';
+    }
+
+    // 화면 좌표 업데이트
     const x = startX + (finishX - startX) * h.progress;
     h.el.style.transform = `translateX(${x}px)`;
   });
 
-  // --- 접전 상황 중계: 1,2등 간격이 아주 좁으면 멘트 ---
+  // 근접 접전 상황 중계
   const running = horses.filter(h => h.state !== 'finished');
   if (finishOrder.length === 0 && running.length >= 2 && commentLock <= 0) {
     const sorted = [...horses].sort((a,b) => b.progress - a.progress);
     const gap = sorted[0].progress - sorted[1].progress;
     if (sorted[0].progress > 0.3) {
-      if (gap < 0.02) say(pick(COMMENTS.close), 2.5);
-      else if (gap > 0.08) say(pick(COMMENTS.lead(sorted[0].name)), 2.5);
+      if (gap < 0.02) say(pick(COMMENTS.close), 2.0);
+      else if (gap > 0.1) say(pick(COMMENTS.lead(sorted[0].name)), 2.0);
     }
   }
 
-  // --- 모든 말이 완주하면 결과 표시 ---
+  // 전체 골인 시 완주 처리
   if (finishOrder.length === horses.length) {
     raceRunning = false;
     setTimeout(showResult, 800);
@@ -655,46 +870,42 @@ function loop(now) {
   requestAnimationFrame(loop);
 }
 
-// 흙먼지 DOM 생성 (0.6초 후 자동 삭제해 메모리 누수 방지)
 function spawnDust(h) {
   const dust = document.createElement('span');
   dust.className = 'dust';
   dust.textContent = '💨';
   const rect = h.el.getBoundingClientRect();
   const laneRect = h.el.parentElement.getBoundingClientRect();
-  dust.style.left = (rect.left - laneRect.left - 4) + 'px';
-  dust.style.top = '22px';
+  dust.style.left = (rect.left - laneRect.left - 6) + 'px';
+  dust.style.top = '28px';
   h.el.parentElement.appendChild(dust);
-  setTimeout(() => dust.remove(), 600);
+  setTimeout(() => dust.remove(), 500);
 }
 
-// 중계 멘트 표시 (lock: 해당 초 동안은 다른 멘트로 안 바뀜)
 function say(text, lock = 1) {
-  if (commentLock > 0 && lock < 2) return; // 중요 멘트(lock>=2)는 끼어들기 허용
+  if (commentLock > 0 && lock < 2) return;
   commentText.textContent = text;
   commentLock = lock;
 }
 
-// ================== 5. 결과 화면 ==================
+// ================== 5. 결과 화면 시상대 ==================
 function showResult() {
   resultEl.style.display = 'flex';
   $('winnerLine').textContent = `🏆 우승: ${finishOrder[0].name}!`;
 
-  // 시상대 (2등-1등-3등 순서로 배치하는 것이 실제 시상대 모양)
   const podiumEl = $('podium');
   podiumEl.innerHTML = '';
-  const order = [1, 0, 2]; // [2등, 1등, 3등]
+  const order = [1, 0, 2]; // 2등, 1등, 3등 순으로 배치
   const cls = ['second','first','third'];
   const medals = ['🥈','🥇','🥉'];
   order.forEach((rankIdx, i) => {
-    if (!finishOrder[rankIdx]) return; // 2마리 경주면 3등 칸 생략
+    if (!finishOrder[rankIdx]) return;
     const step = document.createElement('div');
     step.className = 'step ' + cls[i];
     step.innerHTML = `<span class="h-emoji">🏇</span>${medals[i]}<span class="h-name">${finishOrder[rankIdx].name}</span>`;
     podiumEl.appendChild(step);
   });
 
-  // 전체 순위표
   const listEl = $('rankList');
   listEl.innerHTML = finishOrder.map((h, i) =>
     `<div><span>${i+1}등</span><span style="color:${BADGE_COLORS[h.idx]};font-weight:700">${h.name}</span></div>`
@@ -703,23 +914,22 @@ function showResult() {
   launchConfetti();
 }
 
-// 색종이 40개를 화면 위에서 떨어뜨림
 function launchConfetti() {
   const emojis = ['🎉','✨','🎊','⭐','💛'];
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 45; i++) {
     setTimeout(() => {
       const c = document.createElement('span');
       c.className = 'confetti';
       c.textContent = pick(emojis);
       c.style.left = Math.random() * 100 + 'vw';
-      c.style.animationDuration = (2 + Math.random() * 2) + 's';
+      c.style.animationDuration = (2.2 + Math.random() * 2) + 's';
       document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4500);
-    }, i * 60);
+      setTimeout(() => c.remove(), 4200);
+    }, i * 55);
   }
 }
 
-// ================== 6. 다시하기 버튼들 ==================
+// 다시하기 및 설정 초기화
 $('againBtn').onclick = () => { resultEl.style.display = 'none'; setupRace(); };
 $('newBtn').onclick = () => {
   resultEl.style.display = 'none';
